@@ -6,6 +6,7 @@ if($user_ok == true){
 
 ?>
 <html>
+<?php include('jobs.php'); ?>
     <head>
         <script src="//cdn.jsdelivr.net/emojione/1.3.0/lib/js/emojione.min.js"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/emojione/1.3.0/assets/css/emojione.min.css" />
@@ -49,9 +50,9 @@ if($user_ok == true){
                 height:64px;
             }
             #sidenav {
-                position: fixed;
+                <!---position: fixed;-->
                 width:260px;
-                top:80px;
+                margin-top:76px;
             }
             #sidenav table {
                 width:90%;   
@@ -99,6 +100,13 @@ if($user_ok == true){
                 width:100%;
                 margin-top:10px;
             }
+            .cardpost a {
+                color:#2196f3;
+                text-decoration:none;
+            }
+            .cardpost a:hover {
+                text-decoration:underline;
+            }
             .card {
                 -webkit-box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
                 -moz-box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
@@ -111,6 +119,13 @@ if($user_ok == true){
                 width:100%;
                 color:#757575 ;
                 padding:15px;
+                border:0px;
+            }
+            .inputsmall {
+                font:10pt Open Sans;
+                width:100%;
+                color:#757575 ;
+                padding:10px;
                 border:0px;
             }
             #loginform {
@@ -349,6 +364,10 @@ if($user_ok == true){
                 background:#e0e0e0;
                 cursor:pointer;
             }
+            .tblinkselected {
+                background:#e0e0e0;
+                cursor:pointer;
+            }
         </style>
         <script src="js/main.js"></script>
         <script src="js/ajax.js"></script>
@@ -382,81 +401,24 @@ if($user_ok == true){
 
     </head>
     <body>
+    <?php include_once("analyticstracking.php") ?>
         <!-- Navigation/Header --->
-        <div id="navigation">
-            <center>
-                <table width="90%" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td width="260px">
-                            <font style="margin-left:35px;color:#fff;font-size:15pt;">
-                                @<?php echo $log_username; ?>
-                            </font>
-                        </td>
-                        <td style="min-width:500px;">
-                            <center>
-                                <a href="stream.php"><img src="center.png" height="45px"></a>
-                            </center>
-                        </td>
-                        <td width="260px">
-                            <center>
-                                <table cellspacing="0" cellpadding="0">
-                                    <tr>
-                                        <td>
-                                            <center>
-                                                <a href="" style="height:100%;width:100%;"><div class="backlink"><img src="notifications.png" height="35px"></div></a>
-                                            </center>
-                                        </td>
-                                        <td>
-                                            <center>
-                                                <a href="" style="height:100%;width:100%;"><div class="backlink"><img src="messages.png" height="35px"></div></a>
-                                            </center>
-                                        </td>
-                                        <td>
-                                            <center>
-                                                <a href="logout.php" style="height:100%;width:100%;"><div class="backlink"><img style="padding-left:7px;" src="logout.png" height="35px"></div></a>
-                                            </center>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </center>
-                        </td>
-                    </tr>
-                </table>
-            </center>
-        </div>
+        <?php include('navigation.php'); ?>
         <center>
-            <table width="90%" border="0" cellpadding="3"><tr><td width="260px">
-                <div class="card" id="sidenav">
-                    <a href="">
-                    <div class="navllink">
-                        <table><tr><td width="50px"><img src="profile.png" width="40px"></td><td>Me</td></tr></table>
-                    </div>
-                    </a><a href="stream.php" >
-                    <div class="navllink">
-                        <table><tr><td width="50px"><img src="circle.png" width="40px"></td><td>See Something</td></tr></table>
-                    </div>
-                    </a><a href="stream.php">
-                    <div class="navllink">
-                        <table><tr><td width="50px"><img src="say.png" width="40px"></td><td>Say Something</td></tr></table>
-                    </div>
-                    </a><a href="">
-                    <div class="navllink">
-                        <table><tr><td width="50px"><img src="do.png" width="40px"></td><td>Do Something</td></tr></table>
-                    </div>
-                    </a><a href="">
-                    <div class="navllink">
-                        <table><tr><td width="50px"><img src="need.png" width="40px"></td><td>Need Something</td></tr></table>
-                    </div>
-                    </a><a href="">
-                    <div class="navllink" style="border-bottom:0px;">
-                        <table><tr><td width="50px"><img src="settings.png" width="40px"></td><td>Settings</td></tr></table>
-                    </div>
-                    </a>
-                </div>
+            <table width="90%" border="0" cellpadding="3"><tr><td width="260px" valign="top">
+                <?php include('nav.php'); ?>
                 </td>
                 <td>
                     <div id="content">
                          <?php 
+    function twitterify($post) {
+  $post = preg_replace("#(^|[\n ])([\w]+?://[\w]+[^ \"\n\r\t< ]*)#", "\\1<a href=\"\\2\" target=\"_blank\">\\2", $post);
+  $post = preg_replace("#(^|[\n ])((www|ftp)\.[^ \"\t\n\r< ]*)#", "\\1<a href=\"http://\\2\" target=\"_blank\">\\2", $post);
+  $post = preg_replace("/@(\w+)/", "<a href=\"https://skrolr.com/user/\\1\">@\\1</a>", $post);
+  $post = preg_replace("/#(\w+)/", "<a href=\"http://skrolr.com/search?ht=\\1\" target=\"_blank\">#\\1</a>", $post);
+return $post;
+}
+    
 function nicetime($date)
 {
     if(empty($date)) {
@@ -514,8 +476,12 @@ $result = nicetime($date); // 2 days ago
                                     $omg = $row["omg"];
                                     $clab = $row["clab"];
                                     $day = $row["day"];
-                                    
+                                    $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]#postid".$id;
                                     $date = nicetime($time);
+                                    $photo = $row["photo"];
+                                    $repost = $row["repost"];
+                                    $repost_of = $row["repost_of"];
+                                    
                                     
                                     $sql_post_user = "SELECT * FROM users WHERE id='$user' AND activated='1' LIMIT 1";
                                     $user_post_query = mysqli_query($db_conx, $sql_post_user);
@@ -524,17 +490,80 @@ $result = nicetime($date); // 2 days ago
                                         $first = $row_user["first_name"];
                                         $last = $row_user["last_name"];
                                         $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
                                         
+                                        if ($repost == 1) {
+                                        $u2 = $username;
+                                        $sql2 = "SELECT * FROM posts WHERE post_id='$repost_of'";
+                                        $post_query2 = mysqli_query($db_conx, $sql2);
+                                        while ($row2 = mysqli_fetch_array($post_query2, MYSQLI_ASSOC)) {
+                                            $id = $row2["post_id"];
+                                            $user = $row2["user_id"];
+                                            $time = $row2["timestamp"];
+                                            $post = $row2["post"];
+                                            $poahf = $row2["poahf"];
+                                            $lol = $row2["lol"];
+                                            $omg = $row2["omg"];
+                                            $clab = $row2["clab"];
+                                            $day = $row2["day"];
+                                            $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]#postid".$id;
+                                            $date = nicetime($time);
+                                            $photo = $row2["photo"];
+                                        
+                                        }
                                     
+                                    $sql_post_user = "SELECT * FROM users WHERE id='$user' AND activated='1' LIMIT 1";
+                                    $user_post_query = mysqli_query($db_conx, $sql_post_user);
+                                    
+                                    while ($row_user = mysqli_fetch_array($user_post_query, MYSQLI_ASSOC)) {
+                                        $first = $row_user["first_name"];
+                                        $last = $row_user["last_name"];
+                                        $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
+                                    }
+                                        }
+                                        
+                                        $already_sql = "SELECT * FROM likes WHERE `user_id`='$log_id' AND `post_id`='$id'";
+                                        $already_query = mysqli_query($db_conx, $already_sql);
+                                        //figure out what one needs to be removed
+                                        while ($already_row = mysqli_fetch_array($already_query, MYSQLI_ASSOC)) {
+                                            $type_remove = $already_row['type_of_like'];
+                                        }
+                                        //remove already existing like of post
+                                        $numrows = mysqli_num_rows($already_query);
+                                        if($numrows < 1) {
+	                                       $type_remove = "not";
+                                        }
+                                        
+                                        
+                                        
                                         echo '<div id="postid'.$id.'" style="position:relative;top:-62px;"></div><div class="cardpost">
                             <table style="padding:10px;">
-                                <tr>
+                                ';
+                                  if ($repost == 1) {      
+                                     echo' 
+                                         <tr>
+                                    <td style="background:#fafafa;">@'.$u2.' ReZapped @'.$username.'\'s  thought</td>
+                                </tr>
+                                          ';  
+                                  }
+                                echo '<tr>
                                     <td>
-                                        <img src="profile.jpg" style="border-radius:55px;" height="50px">
+                                        <img src="'.$avatar.'" style="border-radius:55px;" width="50px" height="50px">
                                     </td>
                                     <td>
                                         <font style="font-size:10pt;color:#616161;">
-                                            <a href="" style="color:#1e88e5;font-size:14pt;">
+                                            <a href="/user/'.$username.'" style="color:#1e88e5;font-size:14pt;">
                                                 @'.$username.'
                                             </a>
                                             <br /> '.$date.'
@@ -546,11 +575,23 @@ $result = nicetime($date); // 2 days ago
                                 <tr>
                                     <td>
                                         <font style="font-size:13pt;color:#424242;">
-                                            '.$post.'
+                                            '.twitterify($post).'
                                         </font>
                                     </td>
                                 </tr>
                             </table>
+                            ';
+                                        
+                                        if ($photo == 1) {
+                                            $photo_sql = "SELECT * FROM photo WHERE post_id='$id'";
+                                            $photo_query = mysqli_query($db_conx, $photo_sql);
+                                            while ($rowp = mysqli_fetch_array($photo_query, MYSQLI_ASSOC)) {
+                                                $url = $rowp["url"];
+                                                echo '<img src="images/'.$url.'" width="100%">';
+                                            }
+                                        }
+                                        
+                            echo '
                             <br />
                             <table cellspacing="0" cellpadding="0" style="margin:0px;padding:0px;width:100%;">
                                 <tr>
@@ -571,7 +612,8 @@ $result = nicetime($date); // 2 days ago
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "poahf") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=poahf&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -582,12 +624,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "lol") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=lol&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -598,12 +642,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "omg") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=omg&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -614,12 +660,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "clab") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=clab&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -630,6 +678,7 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
@@ -653,8 +702,12 @@ $result = nicetime($date); // 2 days ago
                                     $omg = $row["omg"];
                                     $clab = $row["clab"];
                                     $day = $row["day"];
-                                    
+                                    $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]#postid".$id;
                                     $date = nicetime($time);
+                                    $photo = $row["photo"];
+                                    $repost = $row["repost"];
+                                    $repost_of = $row["repost_of"];
+                                    
                                     
                                     $sql_post_user = "SELECT * FROM users WHERE id='$user' AND activated='1' LIMIT 1";
                                     $user_post_query = mysqli_query($db_conx, $sql_post_user);
@@ -663,16 +716,80 @@ $result = nicetime($date); // 2 days ago
                                         $first = $row_user["first_name"];
                                         $last = $row_user["last_name"];
                                         $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
+                                        
+                                        if ($repost == 1) {
+                                        $u2 = $username;
+                                        $sql2 = "SELECT * FROM posts WHERE post_id='$repost_of'";
+                                        $post_query2 = mysqli_query($db_conx, $sql2);
+                                        while ($row2 = mysqli_fetch_array($post_query2, MYSQLI_ASSOC)) {
+                                            $id = $row2["post_id"];
+                                            $user = $row2["user_id"];
+                                            $time = $row2["timestamp"];
+                                            $post = $row2["post"];
+                                            $poahf = $row2["poahf"];
+                                            $lol = $row2["lol"];
+                                            $omg = $row2["omg"];
+                                            $clab = $row2["clab"];
+                                            $day = $row2["day"];
+                                            $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]#postid".$id;
+                                            $date = nicetime($time);
+                                            $photo = $row2["photo"];
+                                        
+                                        }
                                     
+                                    $sql_post_user = "SELECT * FROM users WHERE id='$user' AND activated='1' LIMIT 1";
+                                    $user_post_query = mysqli_query($db_conx, $sql_post_user);
+                                    
+                                    while ($row_user = mysqli_fetch_array($user_post_query, MYSQLI_ASSOC)) {
+                                        $first = $row_user["first_name"];
+                                        $last = $row_user["last_name"];
+                                        $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
+                                    }
+                                        }
+                                        
+                                        $already_sql = "SELECT * FROM likes WHERE `user_id`='$log_id' AND `post_id`='$id'";
+                                        $already_query = mysqli_query($db_conx, $already_sql);
+                                        //figure out what one needs to be removed
+                                        while ($already_row = mysqli_fetch_array($already_query, MYSQLI_ASSOC)) {
+                                            $type_remove = $already_row['type_of_like'];
+                                        }
+                                        //remove already existing like of post
+                                        $numrows = mysqli_num_rows($already_query);
+                                        if($numrows < 1) {
+	                                       $type_remove = "not";
+                                        }
+                                        
+                                        
+                                        
                                         echo '<div id="postid'.$id.'" style="position:relative;top:-62px;"></div><div class="cardpost">
                             <table style="padding:10px;">
-                                <tr>
+                                ';
+                                  if ($repost == 1) {      
+                                     echo' 
+                                         <tr>
+                                    <td style="background:#fafafa;">@'.$u2.' ReZapped @'.$username.'\'s  thought</td>
+                                </tr>
+                                          ';  
+                                  }
+                                echo '<tr>
                                     <td>
-                                        <img src="profile.jpg" style="border-radius:55px;" height="50px">
+                                        <img src="'.$avatar.'" style="border-radius:55px;" width="50px" height="50px">
                                     </td>
                                     <td>
                                         <font style="font-size:10pt;color:#616161;">
-                                            <a href="" style="color:#1e88e5;font-size:14pt;">
+                                            <a href="/user/'.$username.'" style="color:#1e88e5;font-size:14pt;">
                                                 @'.$username.'
                                             </a>
                                             <br /> '.$date.'
@@ -684,11 +801,23 @@ $result = nicetime($date); // 2 days ago
                                 <tr>
                                     <td>
                                         <font style="font-size:13pt;color:#424242;">
-                                            '.$post.'
+                                            '.twitterify($post).'
                                         </font>
                                     </td>
                                 </tr>
                             </table>
+                            ';
+                                        
+                                        if ($photo == 1) {
+                                            $photo_sql = "SELECT * FROM photo WHERE post_id='$id'";
+                                            $photo_query = mysqli_query($db_conx, $photo_sql);
+                                            while ($rowp = mysqli_fetch_array($photo_query, MYSQLI_ASSOC)) {
+                                                $url = $rowp["url"];
+                                                echo '<img src="images/'.$url.'" width="100%">';
+                                            }
+                                        }
+                            echo '
+                            
                             <br />
                             <table cellspacing="0" cellpadding="0" style="margin:0px;padding:0px;width:100%;">
                                 <tr>
@@ -709,7 +838,8 @@ $result = nicetime($date); // 2 days ago
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "poahf") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=poahf&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -720,12 +850,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "lol") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=lol&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -741,7 +873,8 @@ $result = nicetime($date); // 2 days ago
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "omg") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=omg&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -752,12 +885,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "clab") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=clab&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -768,6 +903,7 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
@@ -791,8 +927,12 @@ $result = nicetime($date); // 2 days ago
                                     $omg = $row["omg"];
                                     $clab = $row["clab"];
                                     $day = $row["day"];
-                                    
+                                    $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]#postid".$id;
                                     $date = nicetime($time);
+                                    $photo = $row["photo"];
+                                    $repost = $row["repost"];
+                                    $repost_of = $row["repost_of"];
+                                    
                                     
                                     $sql_post_user = "SELECT * FROM users WHERE id='$user' AND activated='1' LIMIT 1";
                                     $user_post_query = mysqli_query($db_conx, $sql_post_user);
@@ -801,16 +941,80 @@ $result = nicetime($date); // 2 days ago
                                         $first = $row_user["first_name"];
                                         $last = $row_user["last_name"];
                                         $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
+                                        
+                                        if ($repost == 1) {
+                                        $u2 = $username;
+                                        $sql2 = "SELECT * FROM posts WHERE post_id='$repost_of'";
+                                        $post_query2 = mysqli_query($db_conx, $sql2);
+                                        while ($row2 = mysqli_fetch_array($post_query2, MYSQLI_ASSOC)) {
+                                            $id = $row2["post_id"];
+                                            $user = $row2["user_id"];
+                                            $time = $row2["timestamp"];
+                                            $post = $row2["post"];
+                                            $poahf = $row2["poahf"];
+                                            $lol = $row2["lol"];
+                                            $omg = $row2["omg"];
+                                            $clab = $row2["clab"];
+                                            $day = $row2["day"];
+                                            $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]#postid".$id;
+                                            $date = nicetime($time);
+                                            $photo = $row2["photo"];
+                                        
+                                        }
                                     
+                                    $sql_post_user = "SELECT * FROM users WHERE id='$user' AND activated='1' LIMIT 1";
+                                    $user_post_query = mysqli_query($db_conx, $sql_post_user);
+                                    
+                                    while ($row_user = mysqli_fetch_array($user_post_query, MYSQLI_ASSOC)) {
+                                        $first = $row_user["first_name"];
+                                        $last = $row_user["last_name"];
+                                        $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
+                                    }
+                                        }
+                                        
+                                        $already_sql = "SELECT * FROM likes WHERE `user_id`='$log_id' AND `post_id`='$id'";
+                                        $already_query = mysqli_query($db_conx, $already_sql);
+                                        //figure out what one needs to be removed
+                                        while ($already_row = mysqli_fetch_array($already_query, MYSQLI_ASSOC)) {
+                                            $type_remove = $already_row['type_of_like'];
+                                        }
+                                        //remove already existing like of post
+                                        $numrows = mysqli_num_rows($already_query);
+                                        if($numrows < 1) {
+	                                       $type_remove = "not";
+                                        }
+                                        
+                                        
+                                        
                                         echo '<div id="postid'.$id.'" style="position:relative;top:-62px;"></div><div class="cardpost">
                             <table style="padding:10px;">
-                                <tr>
+                                ';
+                                  if ($repost == 1) {      
+                                     echo' 
+                                         <tr>
+                                    <td style="background:#fafafa;">@'.$u2.' ReZapped @'.$username.'\'s  thought</td>
+                                </tr>
+                                          ';  
+                                  }
+                                echo '<tr>
                                     <td>
-                                        <img src="profile.jpg" style="border-radius:55px;" height="50px">
+                                        <img src="'.$avatar.'" style="border-radius:55px;" width="50px" height="50px">
                                     </td>
                                     <td>
                                         <font style="font-size:10pt;color:#616161;">
-                                            <a href="" style="color:#1e88e5;font-size:14pt;">
+                                            <a href="/user/'.$username.'" style="color:#1e88e5;font-size:14pt;">
                                                 @'.$username.'
                                             </a>
                                             <br /> '.$date.'
@@ -822,11 +1026,24 @@ $result = nicetime($date); // 2 days ago
                                 <tr>
                                     <td>
                                         <font style="font-size:13pt;color:#424242;">
-                                            '.$post.'
+                                            '.twitterify($post).'
                                         </font>
                                     </td>
                                 </tr>
                             </table>
+                            ';
+                                        
+                                        if ($photo == 1) {
+                                            $photo_sql = "SELECT * FROM photo WHERE post_id='$id'";
+                                            $photo_query = mysqli_query($db_conx, $photo_sql);
+                                            while ($rowp = mysqli_fetch_array($photo_query, MYSQLI_ASSOC)) {
+                                                $url = $rowp["url"];
+                                                echo '<img src="images/'.$url.'" width="100%">';
+                                            }
+                                        }
+                                        
+                            echo '
+                            
                             <br />
                             <table cellspacing="0" cellpadding="0" style="margin:0px;padding:0px;width:100%;">
                                 <tr>
@@ -847,7 +1064,8 @@ $result = nicetime($date); // 2 days ago
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "poahf") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=poahf&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -858,12 +1076,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "lol") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=lol&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -874,12 +1094,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "omg") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=omg&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -890,12 +1112,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "clab") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=clab&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -906,6 +1130,7 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
@@ -929,8 +1154,12 @@ $result = nicetime($date); // 2 days ago
                                     $omg = $row["omg"];
                                     $clab = $row["clab"];
                                     $day = $row["day"];
-                                    
+                                    $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]#postid".$id;
                                     $date = nicetime($time);
+                                    $photo = $row["photo"];
+                                    $repost = $row["repost"];
+                                    $repost_of = $row["repost_of"];
+                                    
                                     
                                     $sql_post_user = "SELECT * FROM users WHERE id='$user' AND activated='1' LIMIT 1";
                                     $user_post_query = mysqli_query($db_conx, $sql_post_user);
@@ -939,16 +1168,80 @@ $result = nicetime($date); // 2 days ago
                                         $first = $row_user["first_name"];
                                         $last = $row_user["last_name"];
                                         $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
+                                        
+                                        if ($repost == 1) {
+                                        $u2 = $username;
+                                        $sql2 = "SELECT * FROM posts WHERE post_id='$repost_of'";
+                                        $post_query2 = mysqli_query($db_conx, $sql2);
+                                        while ($row2 = mysqli_fetch_array($post_query2, MYSQLI_ASSOC)) {
+                                            $id = $row2["post_id"];
+                                            $user = $row2["user_id"];
+                                            $time = $row2["timestamp"];
+                                            $post = $row2["post"];
+                                            $poahf = $row2["poahf"];
+                                            $lol = $row2["lol"];
+                                            $omg = $row2["omg"];
+                                            $clab = $row2["clab"];
+                                            $day = $row2["day"];
+                                            $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]#postid".$id;
+                                            $date = nicetime($time);
+                                            $photo = $row2["photo"];
+                                        
+                                        }
                                     
+                                    $sql_post_user = "SELECT * FROM users WHERE id='$user' AND activated='1' LIMIT 1";
+                                    $user_post_query = mysqli_query($db_conx, $sql_post_user);
+                                    
+                                    while ($row_user = mysqli_fetch_array($user_post_query, MYSQLI_ASSOC)) {
+                                        $first = $row_user["first_name"];
+                                        $last = $row_user["last_name"];
+                                        $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
+                                    }
+                                        }
+                                        
+                                        $already_sql = "SELECT * FROM likes WHERE `user_id`='$log_id' AND `post_id`='$id'";
+                                        $already_query = mysqli_query($db_conx, $already_sql);
+                                        //figure out what one needs to be removed
+                                        while ($already_row = mysqli_fetch_array($already_query, MYSQLI_ASSOC)) {
+                                            $type_remove = $already_row['type_of_like'];
+                                        }
+                                        //remove already existing like of post
+                                        $numrows = mysqli_num_rows($already_query);
+                                        if($numrows < 1) {
+	                                       $type_remove = "not";
+                                        }
+                                        
+                                        
+                                        
                                         echo '<div id="postid'.$id.'" style="position:relative;top:-62px;"></div><div class="cardpost">
                             <table style="padding:10px;">
-                                <tr>
+                                ';
+                                  if ($repost == 1) {      
+                                     echo' 
+                                         <tr>
+                                    <td style="background:#fafafa;">@'.$u2.' ReZapped @'.$username.'\'s  thought</td>
+                                </tr>
+                                          ';  
+                                  }
+                                echo '<tr>
                                     <td>
-                                        <img src="profile.jpg" style="border-radius:55px;" height="50px">
+                                        <img src="'.$avatar.'" style="border-radius:55px;" width="50px" height="50px">
                                     </td>
                                     <td>
                                         <font style="font-size:10pt;color:#616161;">
-                                            <a href="" style="color:#1e88e5;font-size:14pt;">
+                                            <a href="/user/'.$username.'" style="color:#1e88e5;font-size:14pt;">
                                                 @'.$username.'
                                             </a>
                                             <br /> '.$date.'
@@ -960,11 +1253,24 @@ $result = nicetime($date); // 2 days ago
                                 <tr>
                                     <td>
                                         <font style="font-size:13pt;color:#424242;">
-                                            '.$post.'
+                                            '.twitterify($post).'
                                         </font>
                                     </td>
                                 </tr>
                             </table>
+                            ';
+                                        
+                                        if ($photo == 1) {
+                                            $photo_sql = "SELECT * FROM photo WHERE post_id='$id'";
+                                            $photo_query = mysqli_query($db_conx, $photo_sql);
+                                            while ($rowp = mysqli_fetch_array($photo_query, MYSQLI_ASSOC)) {
+                                                $url = $rowp["url"];
+                                                echo '<img src="images/'.$url.'" width="100%">';
+                                            }
+                                        }
+                                        
+                            echo '
+                            
                             <br />
                             <table cellspacing="0" cellpadding="0" style="margin:0px;padding:0px;width:100%;">
                                 <tr>
@@ -985,7 +1291,8 @@ $result = nicetime($date); // 2 days ago
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "poahf") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=poahf&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -996,12 +1303,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "lol") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=lol&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -1012,12 +1321,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "omg") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=omg&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -1028,12 +1339,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "clab") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=clab&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -1044,6 +1357,7 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
@@ -1067,8 +1381,12 @@ $result = nicetime($date); // 2 days ago
                                     $omg = $row["omg"];
                                     $clab = $row["clab"];
                                     $day = $row["day"];
-                                    
+                                    $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]#postid".$id;
                                     $date = nicetime($time);
+                                    $photo = $row["photo"];
+                                    $repost = $row["repost"];
+                                    $repost_of = $row["repost_of"];
+                                    
                                     
                                     $sql_post_user = "SELECT * FROM users WHERE id='$user' AND activated='1' LIMIT 1";
                                     $user_post_query = mysqli_query($db_conx, $sql_post_user);
@@ -1077,16 +1395,80 @@ $result = nicetime($date); // 2 days ago
                                         $first = $row_user["first_name"];
                                         $last = $row_user["last_name"];
                                         $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
+                                        
+                                        if ($repost == 1) {
+                                        $u2 = $username;
+                                        $sql2 = "SELECT * FROM posts WHERE post_id='$repost_of'";
+                                        $post_query2 = mysqli_query($db_conx, $sql2);
+                                        while ($row2 = mysqli_fetch_array($post_query2, MYSQLI_ASSOC)) {
+                                            $id = $row2["post_id"];
+                                            $user = $row2["user_id"];
+                                            $time = $row2["timestamp"];
+                                            $post = $row2["post"];
+                                            $poahf = $row2["poahf"];
+                                            $lol = $row2["lol"];
+                                            $omg = $row2["omg"];
+                                            $clab = $row2["clab"];
+                                            $day = $row2["day"];
+                                            $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]#postid".$id;
+                                            $date = nicetime($time);
+                                            $photo = $row2["photo"];
+                                        
+                                        }
                                     
+                                    $sql_post_user = "SELECT * FROM users WHERE id='$user' AND activated='1' LIMIT 1";
+                                    $user_post_query = mysqli_query($db_conx, $sql_post_user);
+                                    
+                                    while ($row_user = mysqli_fetch_array($user_post_query, MYSQLI_ASSOC)) {
+                                        $first = $row_user["first_name"];
+                                        $last = $row_user["last_name"];
+                                        $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
+                                    }
+                                        }
+                                        
+                                        $already_sql = "SELECT * FROM likes WHERE `user_id`='$log_id' AND `post_id`='$id'";
+                                        $already_query = mysqli_query($db_conx, $already_sql);
+                                        //figure out what one needs to be removed
+                                        while ($already_row = mysqli_fetch_array($already_query, MYSQLI_ASSOC)) {
+                                            $type_remove = $already_row['type_of_like'];
+                                        }
+                                        //remove already existing like of post
+                                        $numrows = mysqli_num_rows($already_query);
+                                        if($numrows < 1) {
+	                                       $type_remove = "not";
+                                        }
+                                        
+                                        
+                                        
                                         echo '<div id="postid'.$id.'" style="position:relative;top:-62px;"></div><div class="cardpost">
                             <table style="padding:10px;">
-                                <tr>
+                                ';
+                                  if ($repost == 1) {      
+                                     echo' 
+                                         <tr>
+                                    <td style="background:#fafafa;">@'.$u2.' ReZapped @'.$username.'\'s  thought</td>
+                                </tr>
+                                          ';  
+                                  }
+                                echo '<tr>
                                     <td>
-                                        <img src="profile.jpg" style="border-radius:55px;" height="50px">
+                                        <img src="'.$avatar.'" style="border-radius:55px;" width="50px" height="50px">
                                     </td>
                                     <td>
                                         <font style="font-size:10pt;color:#616161;">
-                                            <a href="" style="color:#1e88e5;font-size:14pt;">
+                                            <a href="/user/'.$username.'" style="color:#1e88e5;font-size:14pt;">
                                                 @'.$username.'
                                             </a>
                                             <br /> '.$date.'
@@ -1098,11 +1480,23 @@ $result = nicetime($date); // 2 days ago
                                 <tr>
                                     <td>
                                         <font style="font-size:13pt;color:#424242;">
-                                            '.$post.'
+                                            '.twitterify($post).'
                                         </font>
                                     </td>
                                 </tr>
                             </table>
+                            ';
+                                        
+                                        if ($photo == 1) {
+                                            $photo_sql = "SELECT * FROM photo WHERE post_id='$id'";
+                                            $photo_query = mysqli_query($db_conx, $photo_sql);
+                                            while ($rowp = mysqli_fetch_array($photo_query, MYSQLI_ASSOC)) {
+                                                $url = $rowp["url"];
+                                                echo '<img src="images/'.$url.'" width="100%">';
+                                            }
+                                        }
+                                        
+                            echo '
                             <br />
                             <table cellspacing="0" cellpadding="0" style="margin:0px;padding:0px;width:100%;">
                                 <tr>
@@ -1123,7 +1517,8 @@ $result = nicetime($date); // 2 days ago
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "poahf") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=poahf&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -1134,12 +1529,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "lol") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=lol&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -1150,12 +1547,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="omg" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=omg&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -1165,13 +1564,14 @@ $result = nicetime($date); // 2 days ago
                                                                 &nbsp '.$omg.'
                                                             </td>
                                                         </tr>
-                                                    </table>
+                                                    </table></a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="clab" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=clab&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -1182,6 +1582,7 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
@@ -1207,7 +1608,7 @@ $result = nicetime($date); // 2 days ago
                                     </td>
                                     <td>
                                         <center>
-                                            <a href="?SKROL"><img src="circle.png" width="95" style="padding-right:1px;"></a>
+                                            <a href=""><img src="circle.png" width="95" style="padding-right:1px;"></a>
                                         </center>
                                     </td>
                                     <td>
@@ -1233,8 +1634,10 @@ $result = nicetime($date); // 2 days ago
                                 include ('php_includes/db_conx.php');
                                 $sql = "SELECT * FROM posts WHERE allowed='1' ORDER BY `timestamp` DESC";
                                 $post_query = mysqli_query($db_conx, $sql);
+                                
                                 while ($row = mysqli_fetch_array($post_query, MYSQLI_ASSOC)) {
                                     $id = $row["post_id"];
+                                    $i2 = "";
                                     $user = $row["user_id"];
                                     $time = $row["timestamp"];
                                     $post = $row["post"];
@@ -1243,8 +1646,13 @@ $result = nicetime($date); // 2 days ago
                                     $omg = $row["omg"];
                                     $clab = $row["clab"];
                                     $day = $row["day"];
-                                    
+                                    $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]#postid".$id;
                                     $date = nicetime($time);
+                                    $photo = $row["photo"];
+                                    
+                                   $repost = $row["repost"];
+                                    $repost_of = $row["repost_of"];
+                                    
                                     
                                     $sql_post_user = "SELECT * FROM users WHERE id='$user' AND activated='1' LIMIT 1";
                                     $user_post_query = mysqli_query($db_conx, $sql_post_user);
@@ -1253,16 +1661,85 @@ $result = nicetime($date); // 2 days ago
                                         $first = $row_user["first_name"];
                                         $last = $row_user["last_name"];
                                         $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
+                                        
+                                        if ($repost == 1) {
+                                        $i2 = $user;
+                                        $u2 = $username;
+                                        $sql2 = "SELECT * FROM posts WHERE post_id='$repost_of'";
+                                        $post_query2 = mysqli_query($db_conx, $sql2);
+                                        while ($row2 = mysqli_fetch_array($post_query2, MYSQLI_ASSOC)) {
+                                            $id = $row2["post_id"];
+                                            $user = $row2["user_id"];
+                                            $time = $row2["timestamp"];
+                                            $post = $row2["post"];
+                                            $poahf = $row2["poahf"];
+                                            $lol = $row2["lol"];
+                                            $omg = $row2["omg"];
+                                            $clab = $row2["clab"];
+                                            $day = $row2["day"];
+                                            $link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]#postid".$id;
+                                            $date = nicetime($time);
+                                            $photo = $row2["photo"];
+                                        
+                                        }
                                     
-                                        echo '<div id="postid'.$id.'" style="position:relative;top:-62px;"></div><div class="cardpost">
+                                    $sql_post_user = "SELECT * FROM users WHERE id='$user' AND activated='1' LIMIT 1";
+                                    $user_post_query = mysqli_query($db_conx, $sql_post_user);
+                                    
+                                    while ($row_user = mysqli_fetch_array($user_post_query, MYSQLI_ASSOC)) {
+                                        $first = $row_user["first_name"];
+                                        $last = $row_user["last_name"];
+                                        $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
+                                    }
+                                        }
+                                        
+                                        $already_sql = "SELECT * FROM likes WHERE `user_id`='$log_id' AND `post_id`='$id'";
+                                        $already_query = mysqli_query($db_conx, $already_sql);
+                                        //figure out what one needs to be removed
+                                        while ($already_row = mysqli_fetch_array($already_query, MYSQLI_ASSOC)) {
+                                            $type_remove = $already_row['type_of_like'];
+                                        }
+                                        //remove already existing like of post
+                                        $numrows = mysqli_num_rows($already_query);
+                                        if($numrows < 1) {
+	                                       $type_remove = "not";
+                                        }
+                                        
+                                        $zap_sql = "SELECT * FROM friends WHERE user_id='$log_id' AND friend='$user' AND accepted='1'";
+                                        $zap_query = mysqli_query($db_conx, $zap_sql);
+                                        $numrows = mysqli_num_rows($zap_query);
+                                        if($numrows > 0 || $username === $log_username){
+                                        
+                                        echo '<div id="postid'.$id.'" style="position:relative;top:-62px;"></div><div class="cardpost">';
+                                  if ($repost == 1) {      
+                                     echo' 
+                                         <table width="100%" cellpadding="0" cellspacing="0" style="background:#fafafa;color:#ccc;"><tr>
+                                    <td style="padding:10px;">@'.$u2.' ReZapped @'.$username.'\'s  thought</td>
+                                </tr></table>
+                                          ';  
+                                  } 
+                                            echo '
                             <table style="padding:10px;">
+                                
                                 <tr>
                                     <td>
-                                        <img src="profile.jpg" style="border-radius:55px;" height="50px">
+                                        <img src="'.$avatar.'" style="border-radius:55px;" width="50px" height="50px">
                                     </td>
                                     <td>
                                         <font style="font-size:10pt;color:#616161;">
-                                            <a href="" style="color:#1e88e5;font-size:14pt;">
+                                            <a href="/user/'.$username.'" style="color:#1e88e5;font-size:14pt;">
                                                 @'.$username.'
                                             </a>
                                             <br /> '.$date.'
@@ -1274,22 +1751,34 @@ $result = nicetime($date); // 2 days ago
                                 <tr>
                                     <td>
                                         <font style="font-size:13pt;color:#424242;">
-                                            '.$post.'
+                                            '.twitterify($post).'
                                         </font>
                                     </td>
                                 </tr>
                             </table>
+                            ';
+                                        
+                                        if ($photo == 1) {
+                                            $photo_sql = "SELECT * FROM photo WHERE post_id='$id'";
+                                            $photo_query = mysqli_query($db_conx, $photo_sql);
+                                            while ($rowp = mysqli_fetch_array($photo_query, MYSQLI_ASSOC)) {
+                                                $url = $rowp["url"];
+                                                echo '<img src="images/'.$url.'" width="100%">';
+                                            }
+                                        }
+                                        
+                            echo '
                             <br />
                             <table cellspacing="0" cellpadding="0" style="margin:0px;padding:0px;width:100%;">
                                 <tr>
                                     <td align="right">
-                                        <table cellpadding="0" cellspacing="0" style="cursor:pointer;"><tr><td><table style="background:#fafafa;" cellpading="0" cellspacing="0">
+                                        '; if ($user != $log_id && $i2 != $log_id) { echo '<a href="share.php?post_id='.$id.'">'; } echo '<table cellpadding="0" cellspacing="0" style="cursor:pointer;"><tr><td><table style="background:#fafafa;" cellpading="0" cellspacing="0">
                                             <tr>
                                                 <td class="tblink" style="padding-top:2px;height:44px;padding-right:4px;padding-left:4px;">
                                                     <img src="share.png" height="36px">
                                                 </td>
                                             </tr>
-                                        </table></td>
+                                        </table>'; if ($user != $log_id && $i2 != $log_id) { echo '</a>'; } echo '</td>
 <td><table style="background:#fafafa;" cellpading="0" cellspacing="0">
                                             <tr>
                                                 <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
@@ -1299,7 +1788,8 @@ $result = nicetime($date); // 2 days ago
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "poahf") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=poahf&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -1310,12 +1800,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "lol") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=lol&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -1326,12 +1818,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "omg") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=omg&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -1342,12 +1836,14 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             <td><table style="background:#eeeeee;" cellpading="0" cellspacing="0">
                                             <tr>
-                                                <td class="tblink" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                <td class="'; if ($type_remove === "clab") { echo 'tblinkselected'; } else { echo 'tblink'; } echo '" style="padding-top:2px;height:44px;padding-right:9px;padding-left:9px;">
+                                                    <a href="like.php?type=clab&post_id='.$id.'&link='.$link.'">
                                                     <table cellpadding="0" cellspacing="0">
                                                         <tr>
                                                             <td>
@@ -1358,109 +1854,85 @@ $result = nicetime($date); // 2 days ago
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </table></td>
                                             
                                             </tr></table>
                                         </td></tr></table><br />
-                        </div>';
+                        <div width="100%" style="background:#fafafa;">
+                        ';
+                            $comment_sql = "SELECT * FROM comment WHERE post_id='$id' ORDER BY `timestamp`";
+                                        $comment_query = mysqli_query($db_conx, $comment_sql);
+                                        $numrows = mysqli_num_rows($comment_query);
+                                        if($numrows > 0) {
+                                            while ($comment_row = mysqli_fetch_array($comment_query, MYSQLI_ASSOC)) {
+                                            $comment = $comment_row["content"];
+                                            $time = $comment_row["timestamp"];
+                                            $user_comment_id = $comment_row["user_id"];
+                                            
+                                            $sql_post_user = "SELECT * FROM users WHERE id='$user_comment_id' AND activated='1' LIMIT 1";
+                                    $user_comment_query = mysqli_query($db_conx, $sql_post_user);
+                                    
+                                    while ($row_user = mysqli_fetch_array($user_comment_query, MYSQLI_ASSOC)) {
+                                        $first = $row_user["first_name"];
+                                        $last = $row_user["last_name"];
+                                        $username = $row_user["username"];
+                                        $log_name = $row_user["avatar"];
+                                        if ($log_name != "") { 
+                                            $avatar = '../images/'.$log_name;
+                                        } else { 
+                                            $avatar = "profiledemoman.png";
+                                        }
+                                    }
+                                        
+                                                echo '<center>
+                            <table style="padding-top:6px;" width="90%">    
+                                <tr>
+                                    <td width="40px">
+                                        <img src="'.$avatar.'" style="border-radius:55px;" width="40px" height="40px">
+                                    </td>
+                                    <td width="80px">
+                                        <font style="font-size:8pt;color:#616161;">
+                                            <a href="/user/'.$username.'" style="color:#1e88e5;font-size:12pt;">
+                                                @'.$username.'
+                                            </a>
+                                            <br /> '.nicetime($time).'
+                                        </font>
+                                    </td>
+                                    <td>
+                                        <font style="font-size:11pt;color:#424242;">
+                                            '.twitterify($comment).'
+                                        </font>
+                                    </td>
+                                </tr>
+                            </table>
+                        </center>
+                                                
+                                                ';
+                                                
+                                            }
+                                        }
+                        echo '
+                        <form method="POST" action="comment.php?post_id='.$id.'">
+                            <center><table width="90%"><tr><td><input type="text" class="inputsmall" name="content"></td><td width="60px"><input type="submit" value="comment" class="btn" style="margin-top:13px;"></tr></table></center>
+                        </form>
+                        </div></div>';
+                                        }
                                     }
                                 }
+                                
                                 ?>
-                        <div class="cardpost">
-                            <br /><br /><br /><br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br /><br /><br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br /><br /><br /><br /><br /><br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br /><br /><br /><br /><br /><br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
-                        <div class="cardpost">
-                            <br /><br />
-                        </div>
+                        
                         <?php } ?>
                     </div>
                 </td>
                 <td width="260px">
                     <div id="morestuff">
-                        <br />
+                        <div class="cardpost">
+                            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                        </div><br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br /> <br /><br />
                     </div>
                 </td>
                 </tr>
@@ -1468,116 +1940,11 @@ $result = nicetime($date); // 2 days ago
         </center>
     </body>
 </html>
-<!---
-<table style="background:#eeeeee;padding-top:2px;">
-                                            <tr>
-                                                <td>
-                                                    <table class="posttable">
-                                                        <tr>
-                                                            <td class="tblink">
-                                                                <table cellpadding="0" cellspacing="0">
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img src="POAHF.png" width="30px">
-                                                                        </td>
-                                                                        <td>
-                                                                            0
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                            <td class="tblink">
-                                                                <table cellpadding="0" cellspacing="0">
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img src="LOL.png" width="30px">
-                                                                        </td>
-                                                                        <td>
-                                                                            0
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td><td class="tblink">
-                                                                <table cellpadding="0" cellspacing="0">
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img src="OMG.png" width="30px">
-                                                                        </td>
-                                                                        <td>
-                                                                            0
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td><td class="tblink">
-                                                                <table cellpadding="0" cellspacing="0">
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img src="CLAB.png" width="30px">
-                                                                        </td>
-                                                                        <td>
-                                                                            0
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td></tr></table></td></tr></table>
-
-<td><table style="background:#eeeeee;padding-top:2px;">
-                                            <tr>
-                                                <td>
-                                                    <table class="posttable">
-                                                        <tr>
-                                                            <td class="tblink">
-                                                                <table cellpadding="0" cellspacing="0">
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img src="POAHF.png" width="30px">
-                                                                        </td>
-                                                                        <td>
-                                                                            0
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                            <td class="tblink">
-                                                                <table cellpadding="0" cellspacing="0">
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img src="LOL.png" width="30px">
-                                                                        </td>
-                                                                        <td>
-                                                                            0
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td><td class="tblink">
-                                                                <table cellpadding="0" cellspacing="0">
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img src="OMG.png" width="30px">
-                                                                        </td>
-                                                                        <td>
-                                                                            0
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td><td class="tblink">
-                                                                <table cellpadding="0" cellspacing="0">
-                                                                    <tr>
-                                                                        <td>
-                                                                            <img src="CLAB.png" width="30px">
-                                                                        </td>
-                                                                        <td>
-                                                                            0
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td></tr></table></td></tr></table></td>
-
---->
 <?php
 } else {
     ?>
 <html>
+    <?php include('jobs.php'); ?>
 <head>
     <title>Skrolr</title>
     <link rel="icon" type="image/png" href="favicon.png">
@@ -1598,7 +1965,59 @@ $result = nicetime($date); // 2 days ago
         }
         #bigblue {
             background:#42a5f5;
-            height:550px;
+            height:665px;
+            <?php 
+            $rand = rand(1,20);
+            if ($rand == 1) {
+                echo "background-image:url('hope.png');background-size: 100% 100%;";
+            } else if ($rand == 2) {
+                echo "background-image:url('hope2.jpg');background-size: 100% 100%;";
+            } else if ($rand == 3) {
+                echo "background-image:url('hope3.jpg');background-size: 100% auto;background-position: 0px -180px;";
+            } else if ($rand == 4) {
+                echo "background-image:url('hope4.jpeg');background-size: 100% 100%;";
+            } else if ($rand == 5) {
+                echo "background-image:url('hope5.jpg');background-size: 100% 100%;";
+            } else if ($rand == 6) {
+                echo "background-image:url('hope6.jpg');background-size: 100% 100%;";
+            } else if ($rand == 7) {
+                echo "background-image:url('hope7.jpg');background-size: 100% 100%;";
+            } else if ($rand == 8) {
+                echo "background-image:url('hope8.jpg');background-size: 100% 100%;";
+            } else if ($rand == 9) {
+                echo "background-image:url('noah1.JPG');background-size: 100% 100%;";
+            } else if ($rand == 10) {
+                echo "background-image:url('noah2.JPG');background-size: 100% auto;background-position: 0px -180px;";
+            } else if ($rand == 11) {
+                echo "background-image:url('noah3.JPG');background-size: 100% 100%;";
+            } else if ($rand == 12) {
+                echo "background-image:url('noah4.JPG');background-size: 100% 100%;";
+            } else if ($rand == 13) {
+                echo "background-image:url('noah5.JPG');background-size: 100% 100%;";
+            } else if ($rand == 14) {
+                echo "background-image:url('noah6.JPG');background-size: 100% 100%;";
+            } else if ($rand == 15) {
+                echo "background-image:url('noah7.JPG');background-size: 100% 100%;";
+            } else if ($rand == 16) {
+                echo "background-image:url('noah8.JPG');background-size: 100% 100%;";
+            } else if ($rand == 17) {
+                echo "background-image:url('noah9.JPG');background-size: 100% auto;background-position: 0px -180px;";
+            } else if ($rand == 18) {
+                echo "background-image:url('noah10.JPG');background-size: 100% 100%;";
+            } else if ($rand == 19) {
+                echo "background-image:url('noah11.JPG');background-size: 100% 100%;";
+            } else if ($rand == 20) {
+                echo "background-image:url('noah12.JPG');background-size: 100% 100%;";
+            }
+            
+            //background-image:url('hope.png');
+            //background-image:url('hope2.jpg')
+            //background-image:url('hope4.jpeg');
+            //background-image:url('hope5.jpg');
+            //background-image:url('hope6.jpg');
+            //background-image:url('hope7.jpg');
+            ?>
+            
         }
         #content {
             
@@ -1688,7 +2107,7 @@ $result = nicetime($date); // 2 days ago
                 background:#FFFFFF;
                 padding:0px;
             }
-            input {
+            .textinput {
                 font:14pt Open Sans;
                 width:100%;
                 color:#757575 ;
@@ -1698,6 +2117,7 @@ $result = nicetime($date); // 2 days ago
         textarea:focus, input:focus{
     outline: 0;
 }
+    
     </style>
     
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700,300,100&subset=latin,cyrillic-ext,cyrillic,greek-ext,greek,vietnamese,latin-ext' rel='stylesheet' type='text/css'>
@@ -1706,33 +2126,33 @@ $result = nicetime($date); // 2 days ago
 <body>
     <div id="bigblue">
         <center>
-            <table width="100%"><td align="right"><table><tr><td><a href="about.php">about</a></td><td><a href="about.php">features</a></td><td><A href="/login"><button class="btn waves-effect waves-light" style="margin-top:15px;">sign in</button></A></td></tr></table></td></table>
-            <table width="90%" style="padding-top:45px;"><tr><td><table><tr><td><img src="circleinverted.png" width="250px"></td><td><table style="margin:0px;padding:0px;padding-left:20px;padding-top:40px;" cellpadding="0" cellspacing="0"><tr><td><div style="font:100pt Open Sans;color:#fff;padding:0px;positon:relative;top:280px;"><div class="card"><table width="100%" cellpadding="0" cellspacing="0"><tr><td width="750px"><input type="text" width="400px" value="example@example.com" onFocus="if (this.value == 'example@example.com') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'example@example.com';}"></td><td width="30px" style="max-width:30px;"><img src="pointer.png" height="20px"></td></tr></table></div></div></td></tr><tr><td><div style="padding-left:20px;padding-top:5px;font:40pt Roboto Slab;color:#fff;">become something</div></td></tr></table></td><td></td></tr></table></td></tr></table>
+            <table width="100%"><td><img src="homepagelogo.png" height="50px" style="margin-top:-5px;margin-left:5px;"></td><td align="right"><table><tr><td><a href="/about">about</a></td><td><a href="/features">features</a></td><td><A href="/login"><button class="btn waves-effect waves-light" style="margin-top:15px;">sign in</button></A></td></tr></table></td></table>
+            <table width="90%" style="padding-top:120px;"><tr><td><table><tr><td width="150px"><!---<img src="circleinverted.png" width="250px">--></td><td><table style="margin:0px;padding:0px;padding-left:20px;padding-top:60px;" cellpadding="0" cellspacing="0"><tr><td><div style="font:100pt Open Sans;color:#fff;padding:0px;positon:relative;top:280px;"><div class="card"><form method="POST" style="padding:0px;margin:0px;" action="request.php"><table cellpadding="0" cellspacing="0" border="0"><tr><td width="750px"><input class="textinput" name="email" type="email" width="400px" value="example@example.com" onFocus="if (this.value == 'example@example.com') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'example@example.com';}"></td><td width="35px" style="max-width:30px;"><input type="image" width="20px" height="20px" src="pointer.png" border="0" alt="Submit" style="margin-right:0px;position:relative;"/></td></tr></table></form></div></div></td></tr><tr><td><div style="padding-left:20px;padding-top:5px;font:40pt Roboto Slab;color:#fff;">become something</div></td></tr></table></td><td></td></tr></table></td></tr></table>
         <br /><br />
         </center>
     </div>
     <div id="content">
         <center>
+            <div id="about">
             <table width="80%">
                 <tr>
                     <td>
-                        <div style="padding-top:20px;padding-left:20px;font:30pt Open Sans;color:#bdbdbd;border-bottom:0px solid #bdbdbd;">
-                            what is Skrolr?
+                        <div style="padding-top:25px;padding-left:20px;padding-bottom:30px;font:20pt Open Sans;color:#5e5e5e;border-bottom:0px solid #bdbdbd;">
+                            What is Skrolr?
                         </div>
-                        <div style="color:#757575;padding:30px;padding-top:5px;font-size:14pt;">
-                            Skrolr is an new social utility that lets you find things that are awesome and connect you to the people that matter in an entirely new way.
-                        </div>
-                        <div style="color:#757575;padding:30px;margin-top:-50px;font-size:14pt;">
-                            When you skrol through the world around you, you can see, find, do, and become anything you want
+                        <div style="color:#757575;padding:30px;padding-top:5px;font-size:14pt;">      
+Skrolr is todays most exciting and new crowd sourced media conglomerate. Through an exciting new system of rating you can explore what is popular on the web, trending music, and your daily dose of current events. Never feel left behind in any social situation. When you Skrol you can find out all that you need to be the highlight of any conversation.   
                         </div>
                     </td>
                 </tr>
             </table>
-            <Br /><br /><table style="color:#757575;padding:30px;margin-top:60px;font-size:14pt;" width="60%"><tr><td width="270px"><img src="say.png" height="250px"></td><td><font style="font:28pt Open Sans;color:#bdbdbd;">Say Something</font><br />&nbsp Express yourself. Text & Media</td></tr><tr><td colspan="2"><br /></td></tr><tr><td width="270px"><img src="circle.png" height="250px"></td><td><font style="font:28pt Open Sans;color:#bdbdbd;">See Something</font><br />&nbsp Explore the web. Stay updated</td></tr><tr><td colspan="2"><br /></td></tr><tr><td width="270px"><img src="do.png" height="250px"></td><td><font style="font:28pt Open Sans;color:#bdbdbd;">Do Something</font><br />&nbsp Listen. Watch. Find. Explore.</td></tr><tr><td colspan="2"><br /></td></tr><tr><td width="270px"><img src="need.png" height="250px"></td><td><font style="font:28pt Open Sans;color:#bdbdbd;">Need Something</font><br />&nbsp Ask and Find Out</td></tr></table></center><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>
+                </div>
+        </center>
+            </div>
+            
 </body>
 </html>
 <?php
 }
 
 ?>
-
